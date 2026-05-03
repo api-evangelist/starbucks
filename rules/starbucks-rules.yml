@@ -1,0 +1,183 @@
+extends: spectral:oas
+rules:
+  # Operation naming and structure
+  starbucks-operation-ids-camel-case:
+    description: Operation IDs must use camelCase naming convention
+    message: "Operation ID '{{value}}' must use camelCase (e.g., listMenuCategories, getStore)"
+    severity: warn
+    given: "$.paths[*][*].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]*$"
+
+  starbucks-operation-summary-title-case:
+    description: Operation summaries must use Title Case
+    message: "Summary '{{value}}' should use Title Case"
+    severity: warn
+    given: "$.paths[*][*].summary"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z][a-zA-Z0-9 ]*$"
+
+  starbucks-api-versioned-paths:
+    description: All API paths must be versioned with /v1/ prefix
+    message: "Path '{{property}}' must start with /v1/ or /status for health checks"
+    severity: warn
+    given: "$.paths"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^/(v[0-9]+/|status)"
+
+  # Authentication requirements
+  starbucks-bearer-auth-required:
+    description: All operations must use Bearer token authentication
+    message: "Operation must reference bearerAuth security scheme"
+    severity: error
+    given: "$.paths[*][*]"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          properties:
+            security:
+              type: array
+          required:
+            - security
+
+  # Response codes
+  starbucks-get-operations-200:
+    description: GET operations must define a 200 response
+    message: "GET operation must have a 200 response defined"
+    severity: error
+    given: "$.paths[*].get"
+    then:
+      field: "responses.200"
+      function: truthy
+
+  starbucks-post-operations-201:
+    description: POST create operations should return 201 Created
+    message: "POST operation creating resources should return 201"
+    severity: warn
+    given: "$.paths[*].post"
+    then:
+      field: "responses.201"
+      function: truthy
+
+  starbucks-unauthorized-response:
+    description: All operations must define a 401 Unauthorized response
+    message: "Operation must define a 401 Unauthorized response"
+    severity: error
+    given: "$.paths[*][*]"
+    then:
+      field: "responses.401"
+      function: truthy
+
+  starbucks-rate-limit-response:
+    description: All operations must define a 429 Too Many Requests response
+    message: "Operation must define a 429 Too Many Requests response"
+    severity: warn
+    given: "$.paths[*][*]"
+    then:
+      field: "responses.429"
+      function: truthy
+
+  # Tags
+  starbucks-operation-tags-required:
+    description: All operations must have at least one tag
+    message: "Operation must include at least one tag for categorization"
+    severity: warn
+    given: "$.paths[*][*].tags"
+    then:
+      function: length
+      functionOptions:
+        min: 1
+
+  starbucks-tags-title-case:
+    description: All tags must use Title Case
+    message: "Tag '{{value}}' must use Title Case"
+    severity: warn
+    given: "$.paths[*][*].tags[*]"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z][a-zA-Z0-9 ]*$"
+
+  # Path conventions
+  starbucks-path-kebab-case:
+    description: Path segments must use kebab-case
+    message: "Path segment must use kebab-case (lowercase with hyphens)"
+    severity: warn
+    given: "$.paths"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[/a-z0-9{}-]*$"
+
+  starbucks-no-trailing-slash:
+    description: Paths must not have a trailing slash
+    message: "Path '{{property}}' must not end with a trailing slash"
+    severity: warn
+    given: "$.paths"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "/$"
+
+  # Parameter requirements
+  starbucks-path-parameters-required:
+    description: Path parameters must be marked as required
+    message: "Path parameter '{{value}}' must have required: true"
+    severity: error
+    given: "$.paths[*][*].parameters[?(@.in=='path')]"
+    then:
+      field: required
+      function: truthy
+
+  starbucks-parameter-descriptions:
+    description: All parameters must have descriptions
+    message: "Parameter '{{value}}' must have a description"
+    severity: warn
+    given: "$.paths[*][*].parameters[*].name"
+    then:
+      function: truthy
+
+  # Schema requirements
+  starbucks-response-schema-defined:
+    description: 200 responses should define a schema
+    message: "200 response should include a schema definition"
+    severity: warn
+    given: "$.paths[*].get.responses.200.content.application/json"
+    then:
+      field: schema
+      function: truthy
+
+  # Info
+  starbucks-info-contact:
+    description: API must have contact information
+    message: "API info must include contact details"
+    severity: warn
+    given: "$.info"
+    then:
+      field: contact
+      function: truthy
+
+  starbucks-info-description:
+    description: API must have a description
+    message: "API info must include a description"
+    severity: error
+    given: "$.info"
+    then:
+      field: description
+      function: truthy
+
+  starbucks-servers-defined:
+    description: API must define at least one server
+    message: "API must define servers for base URL"
+    severity: error
+    given: "$"
+    then:
+      field: servers
+      function: truthy

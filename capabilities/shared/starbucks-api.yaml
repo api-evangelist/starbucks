@@ -1,0 +1,449 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Starbucks API"
+  description: >-
+    Starbucks partner API providing access to menu data, store locations, loyalty program management, and mobile ordering capabilities. Requires bearer token authentication from the Starbucks Developer Portal.
+  tags:
+    - Starbucks
+    - Food Service
+    - Coffee
+    - Ordering
+    - Loyalty
+    - Store Locator
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      STARBUCKS_API_TOKEN: STARBUCKS_API_TOKEN
+
+capability:
+  consumes:
+    - type: http
+      namespace: starbucks
+      baseUri: https://api.starbucks.com
+      description: "Starbucks API for menu, stores, loyalty, and ordering"
+      authentication:
+        type: bearer
+        token: "{{STARBUCKS_API_TOKEN}}"
+      resources:
+        - name: status
+          path: /status
+          description: API health and status
+          operations:
+            - name: get-status
+              method: GET
+              description: Get API status
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: menu-categories
+          path: /v1/menu/categories
+          description: Menu category listing
+          operations:
+            - name: list-menu-categories
+              method: GET
+              description: List all menu categories
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: menu-items
+          path: /v1/menu/categories/{categoryId}/items
+          description: Menu items within a category
+          operations:
+            - name: list-menu-items
+              method: GET
+              description: List menu items for a category
+              inputParameters:
+                - name: categoryId
+                  in: path
+                  type: string
+                  required: true
+                  description: Menu category identifier
+                - name: limit
+                  in: query
+                  type: integer
+                  required: false
+                  description: Maximum results to return
+                - name: offset
+                  in: query
+                  type: integer
+                  required: false
+                  description: Pagination offset
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: menu-item
+          path: /v1/menu/items/{itemId}
+          description: Individual menu item details
+          operations:
+            - name: get-menu-item
+              method: GET
+              description: Get detailed menu item information
+              inputParameters:
+                - name: itemId
+                  in: path
+                  type: string
+                  required: true
+                  description: Menu item identifier
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: stores
+          path: /v1/stores
+          description: Store location search
+          operations:
+            - name: list-stores
+              method: GET
+              description: Search and list Starbucks store locations
+              inputParameters:
+                - name: latitude
+                  in: query
+                  type: number
+                  required: false
+                  description: Latitude for location search
+                - name: longitude
+                  in: query
+                  type: number
+                  required: false
+                  description: Longitude for location search
+                - name: query
+                  in: query
+                  type: string
+                  required: false
+                  description: Text search query for location
+                - name: radius
+                  in: query
+                  type: integer
+                  required: false
+                  description: Search radius in miles
+                - name: limit
+                  in: query
+                  type: integer
+                  required: false
+                  description: Maximum results to return
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: store
+          path: /v1/stores/{storeId}
+          description: Individual store details
+          operations:
+            - name: get-store
+              method: GET
+              description: Get store details and hours
+              inputParameters:
+                - name: storeId
+                  in: path
+                  type: string
+                  required: true
+                  description: Store identifier
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: loyalty-account
+          path: /v1/loyalty/accounts/{accountId}
+          description: Loyalty account management
+          operations:
+            - name: get-loyalty-account
+              method: GET
+              description: Get loyalty account star balance and tier
+              inputParameters:
+                - name: accountId
+                  in: path
+                  type: string
+                  required: true
+                  description: Loyalty account identifier
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: loyalty-transactions
+          path: /v1/loyalty/accounts/{accountId}/transactions
+          description: Loyalty transaction history
+          operations:
+            - name: list-loyalty-transactions
+              method: GET
+              description: List star earning and redemption transactions
+              inputParameters:
+                - name: accountId
+                  in: path
+                  type: string
+                  required: true
+                  description: Loyalty account identifier
+                - name: limit
+                  in: query
+                  type: integer
+                  required: false
+                  description: Maximum results to return
+                - name: offset
+                  in: query
+                  type: integer
+                  required: false
+                  description: Pagination offset
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: orders
+          path: /v1/orders
+          description: Order management
+          operations:
+            - name: create-order
+              method: POST
+              description: Create a new Starbucks order
+              body:
+                type: json
+                data:
+                  storeId: "{{tools.storeId}}"
+                  items: "{{tools.items}}"
+                  loyaltyAccountId: "{{tools.loyaltyAccountId}}"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: order
+          path: /v1/orders/{orderId}
+          description: Individual order status
+          operations:
+            - name: get-order
+              method: GET
+              description: Get order status and details
+              inputParameters:
+                - name: orderId
+                  in: path
+                  type: string
+                  required: true
+                  description: Order identifier
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8180
+      namespace: starbucks-rest
+      resources:
+        - path: /v1/status
+          name: status
+          operations:
+            - method: GET
+              name: get-status
+              description: Get API health status
+              call: "starbucks.get-status"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/menu/categories
+          name: menu-categories
+          operations:
+            - method: GET
+              name: list-menu-categories
+              description: List all menu categories
+              call: "starbucks.list-menu-categories"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/menu/categories/{categoryId}/items
+          name: menu-items
+          operations:
+            - method: GET
+              name: list-menu-items
+              description: List menu items in a category
+              call: "starbucks.list-menu-items"
+              with:
+                categoryId: "rest.categoryId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/stores
+          name: stores
+          operations:
+            - method: GET
+              name: list-stores
+              description: Search store locations
+              call: "starbucks.list-stores"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/loyalty/accounts/{accountId}
+          name: loyalty-account
+          operations:
+            - method: GET
+              name: get-loyalty-account
+              description: Get loyalty account details
+              call: "starbucks.get-loyalty-account"
+              with:
+                accountId: "rest.accountId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/orders
+          name: orders
+          operations:
+            - method: POST
+              name: create-order
+              description: Create a new order
+              call: "starbucks.create-order"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9180
+      namespace: starbucks-mcp
+      transport: http
+      tools:
+        - name: get-api-status
+          description: Check Starbucks API health and operational status
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "starbucks.get-status"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-menu-categories
+          description: Get all Starbucks menu categories (Hot Coffees, Cold Coffees, Teas, Food, etc.)
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "starbucks.list-menu-categories"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-menu-items
+          description: Get menu items within a specific Starbucks category with pricing and customization options
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "starbucks.list-menu-items"
+          with:
+            categoryId: "tools.categoryId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-menu-item
+          description: Get detailed menu item information including nutrition, allergens, and customization options
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "starbucks.get-menu-item"
+          with:
+            itemId: "tools.itemId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: search-stores
+          description: Find nearby Starbucks store locations by coordinates or address query
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "starbucks.list-stores"
+          with:
+            latitude: "tools.latitude"
+            longitude: "tools.longitude"
+            query: "tools.query"
+            radius: "tools.radius"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-store
+          description: Get Starbucks store details including hours, amenities, and mobile ordering availability
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "starbucks.get-store"
+          with:
+            storeId: "tools.storeId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-loyalty-account
+          description: Get Starbucks Rewards account star balance, tier status, and membership details
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "starbucks.get-loyalty-account"
+          with:
+            accountId: "tools.accountId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-loyalty-transactions
+          description: Get star earning and redemption transaction history for a Starbucks Rewards account
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "starbucks.list-loyalty-transactions"
+          with:
+            accountId: "tools.accountId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: create-order
+          description: Place a new Starbucks mobile order at a specified store with customized items
+          hints:
+            readOnly: false
+            destructive: false
+          call: "starbucks.create-order"
+          with:
+            storeId: "tools.storeId"
+            items: "tools.items"
+            loyaltyAccountId: "tools.loyaltyAccountId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-order
+          description: Check the status and details of a Starbucks mobile order
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "starbucks.get-order"
+          with:
+            orderId: "tools.orderId"
+          outputParameters:
+            - type: object
+              mapping: "$."

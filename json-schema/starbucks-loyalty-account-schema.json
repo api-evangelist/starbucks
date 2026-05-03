@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12",
+  "$id": "https://api.starbucks.com/schemas/loyalty-account",
+  "title": "Starbucks Loyalty Account",
+  "description": "A Starbucks Rewards loyalty account with star balance, membership tier, and transaction history.",
+  "type": "object",
+  "required": ["id", "tier", "starBalance", "status"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the loyalty account"
+    },
+    "memberName": {
+      "type": "string",
+      "description": "Account holder display name"
+    },
+    "tier": {
+      "type": "string",
+      "description": "Starbucks Rewards membership tier",
+      "enum": ["Welcome", "Green", "Gold"]
+    },
+    "starBalance": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Current available star balance for redemption"
+    },
+    "ytdStars": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total stars earned year-to-date"
+    },
+    "memberSince": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the member joined Starbucks Rewards"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "inactive", "suspended"],
+      "description": "Current account status"
+    }
+  },
+  "examples": [
+    {
+      "id": "loyalty_abc123",
+      "memberName": "Jane Smith",
+      "tier": "Gold",
+      "starBalance": 450,
+      "ytdStars": 1240,
+      "memberSince": "2020-03-15",
+      "status": "active"
+    }
+  ]
+}

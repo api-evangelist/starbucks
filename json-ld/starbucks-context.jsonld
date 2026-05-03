@@ -1,0 +1,58 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "starbucks": "https://api.starbucks.com/vocab#",
+    "MenuItem": "FoodEstablishmentReservation",
+    "Store": "CafeOrCoffeeShop",
+    "LoyaltyAccount": "starbucks:LoyaltyAccount",
+    "Order": "Order",
+    "id": "@id",
+    "name": "name",
+    "description": "description",
+    "price": {
+      "@id": "offers",
+      "@type": "Offer"
+    },
+    "imageUrl": "image",
+    "available": "availability",
+    "calories": {
+      "@id": "starbucks:calories",
+      "@type": "Integer"
+    },
+    "allergens": {
+      "@id": "starbucks:allergens",
+      "@container": "@list"
+    },
+    "sizes": {
+      "@id": "starbucks:sizes",
+      "@container": "@list"
+    },
+    "customizations": {
+      "@id": "starbucks:customizations",
+      "@container": "@list"
+    },
+    "categoryId": "starbucks:category",
+    "address": "address",
+    "coordinates": "geo",
+    "latitude": "latitude",
+    "longitude": "longitude",
+    "phone": "telephone",
+    "timezone": "starbucks:timezone",
+    "hours": "openingHoursSpecification",
+    "amenities": "amenityFeature",
+    "services": "starbucks:services",
+    "mobileOrderingEnabled": "starbucks:mobileOrdering",
+    "driveThru": "starbucks:driveThru",
+    "starBalance": "starbucks:starBalance",
+    "tier": "starbucks:rewardsTier",
+    "memberSince": "startDate",
+    "status": "starbucks:accountStatus",
+    "storeId": "starbucks:storeReference",
+    "items": "orderedItem",
+    "subtotal": "price",
+    "total": "totalPrice",
+    "estimatedReadyAt": "starbucks:estimatedReadyAt",
+    "loyaltyAccountId": "starbucks:loyaltyAccount",
+    "starsEarned": "starbucks:starsEarned"
+  }
+}

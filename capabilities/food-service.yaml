@@ -1,0 +1,281 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Starbucks Food Service"
+  description: >-
+    Unified capability for Starbucks food service workflows including menu discovery, store location, loyalty management, and mobile ordering. Enables partner applications to provide full Starbucks experiences covering menu browsing, store finder, rewards tracking, and order placement.
+  tags:
+    - Starbucks
+    - Food Service
+    - Coffee
+    - Mobile Ordering
+    - Loyalty
+    - Store Locator
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      STARBUCKS_API_TOKEN: STARBUCKS_API_TOKEN
+
+capability:
+  consumes:
+    - import: starbucks
+      location: ./shared/starbucks-api.yaml
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: starbucks-food-service-api
+      description: "Unified REST API for Starbucks food service workflows."
+      resources:
+        - path: /v1/menu/categories
+          name: menu-categories
+          description: Browse Starbucks menu categories
+          operations:
+            - method: GET
+              name: list-menu-categories
+              description: List all available Starbucks menu categories
+              call: "starbucks.list-menu-categories"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/menu/categories/{categoryId}/items
+          name: menu-items
+          description: Browse items within a menu category
+          operations:
+            - method: GET
+              name: list-menu-items
+              description: List menu items in a category with pricing and options
+              call: "starbucks.list-menu-items"
+              with:
+                categoryId: "rest.categoryId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/menu/items/{itemId}
+          name: menu-item
+          description: Get detailed menu item information
+          operations:
+            - method: GET
+              name: get-menu-item
+              description: Get full menu item details including nutrition and customization
+              call: "starbucks.get-menu-item"
+              with:
+                itemId: "rest.itemId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/stores
+          name: stores
+          description: Find Starbucks store locations
+          operations:
+            - method: GET
+              name: list-stores
+              description: Search for Starbucks stores near a location
+              call: "starbucks.list-stores"
+              with:
+                latitude: "rest.latitude"
+                longitude: "rest.longitude"
+                query: "rest.query"
+                radius: "rest.radius"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/stores/{storeId}
+          name: store
+          description: Get store details
+          operations:
+            - method: GET
+              name: get-store
+              description: Get Starbucks store details including hours and amenities
+              call: "starbucks.get-store"
+              with:
+                storeId: "rest.storeId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/loyalty/accounts/{accountId}
+          name: loyalty-account
+          description: Manage Starbucks Rewards account
+          operations:
+            - method: GET
+              name: get-loyalty-account
+              description: Get loyalty account star balance and tier
+              call: "starbucks.get-loyalty-account"
+              with:
+                accountId: "rest.accountId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/loyalty/accounts/{accountId}/transactions
+          name: loyalty-transactions
+          description: View loyalty transaction history
+          operations:
+            - method: GET
+              name: list-loyalty-transactions
+              description: List star earning and redemption transactions
+              call: "starbucks.list-loyalty-transactions"
+              with:
+                accountId: "rest.accountId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/orders
+          name: orders
+          description: Mobile order management
+          operations:
+            - method: POST
+              name: create-order
+              description: Place a new Starbucks mobile order
+              call: "starbucks.create-order"
+              with:
+                storeId: "rest.storeId"
+                items: "rest.items"
+                loyaltyAccountId: "rest.loyaltyAccountId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/orders/{orderId}
+          name: order
+          description: Track an order
+          operations:
+            - method: GET
+              name: get-order
+              description: Get order status and estimated ready time
+              call: "starbucks.get-order"
+              with:
+                orderId: "rest.orderId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9080
+      namespace: starbucks-food-service-mcp
+      transport: http
+      description: "MCP server for AI-assisted Starbucks food service workflows."
+      tools:
+        - name: list-menu-categories
+          description: Browse all Starbucks menu categories including Hot Coffees, Cold Coffees, Teas, Refreshers, Food, and Merchandise
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "starbucks.list-menu-categories"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-menu-items
+          description: Get all items in a Starbucks menu category with descriptions, pricing, and sizes
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "starbucks.list-menu-items"
+          with:
+            categoryId: "tools.categoryId"
+            limit: "tools.limit"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-menu-item
+          description: Get complete details for a Starbucks menu item including nutrition facts, allergens, and customization options
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "starbucks.get-menu-item"
+          with:
+            itemId: "tools.itemId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: search-stores
+          description: Find Starbucks locations near specified coordinates or address, with filtering by radius
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "starbucks.list-stores"
+          with:
+            latitude: "tools.latitude"
+            longitude: "tools.longitude"
+            query: "tools.query"
+            radius: "tools.radius"
+            limit: "tools.limit"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-store-details
+          description: Get Starbucks store hours, amenities, drive-thru availability, and mobile ordering status
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "starbucks.get-store"
+          with:
+            storeId: "tools.storeId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-loyalty-balance
+          description: Check Starbucks Rewards star balance, membership tier (Welcome/Green/Gold), and account status
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "starbucks.get-loyalty-account"
+          with:
+            accountId: "tools.accountId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-reward-transactions
+          description: View history of Starbucks star earnings and redemptions for a Rewards account
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "starbucks.list-loyalty-transactions"
+          with:
+            accountId: "tools.accountId"
+            limit: "tools.limit"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: place-order
+          description: Submit a Starbucks mobile order with customized items at a specified store, optionally applying loyalty rewards
+          hints:
+            readOnly: false
+            destructive: false
+          call: "starbucks.create-order"
+          with:
+            storeId: "tools.storeId"
+            items: "tools.items"
+            loyaltyAccountId: "tools.loyaltyAccountId"
+            redemptionStars: "tools.redemptionStars"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: track-order
+          description: Check the current status and estimated pickup time for a Starbucks mobile order
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "starbucks.get-order"
+          with:
+            orderId: "tools.orderId"
+          outputParameters:
+            - type: object
+              mapping: "$."

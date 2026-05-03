@@ -1,0 +1,56 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api.starbucks.com/v1/orders",
+    "headers": {
+      "Authorization": "Bearer {token}",
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    "body": {
+      "storeId": "store_2234",
+      "items": [
+        {
+          "menuItemId": "item_caramel_macchiato",
+          "quantity": 1,
+          "sizeId": "grande",
+          "customizations": [
+            {
+              "type": "milk",
+              "optionId": "oat_milk"
+            },
+            {
+              "type": "syrup",
+              "optionId": "extra_vanilla"
+            }
+          ]
+        }
+      ],
+      "loyaltyAccountId": "loyalty_abc123"
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "id": "order_xyz789",
+      "status": "accepted",
+      "storeId": "store_2234",
+      "items": [
+        {
+          "id": "item_caramel_macchiato",
+          "name": "Caramel Macchiato",
+          "price": 5.75
+        }
+      ],
+      "subtotal": 5.75,
+      "tax": 0.57,
+      "total": 6.32,
+      "starsEarned": 63,
+      "createdAt": "2026-05-02T14:30:00Z",
+      "estimatedReadyAt": "2026-05-02T14:37:00Z"
+    }
+  }
+}

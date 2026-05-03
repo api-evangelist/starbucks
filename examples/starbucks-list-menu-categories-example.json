@@ -1,0 +1,55 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.starbucks.com/v1/menu/categories",
+    "headers": {
+      "Authorization": "Bearer {token}",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "categories": [
+        {
+          "id": "cat_hot_coffees",
+          "name": "Hot Coffees",
+          "description": "Handcrafted hot espresso beverages and brewed coffees",
+          "imageUrl": "https://api.starbucks.com/images/hot-coffees.jpg",
+          "itemCount": 28
+        },
+        {
+          "id": "cat_cold_coffees",
+          "name": "Cold Coffees",
+          "description": "Iced espresso drinks, cold brew, and blended beverages",
+          "imageUrl": "https://api.starbucks.com/images/cold-coffees.jpg",
+          "itemCount": 32
+        },
+        {
+          "id": "cat_teas",
+          "name": "Teas",
+          "description": "Hot and iced teas, chai, and herbal infusions",
+          "imageUrl": "https://api.starbucks.com/images/teas.jpg",
+          "itemCount": 18
+        },
+        {
+          "id": "cat_refreshers",
+          "name": "Refreshers",
+          "description": "Fruit and botanical sparkling beverages",
+          "imageUrl": "https://api.starbucks.com/images/refreshers.jpg",
+          "itemCount": 8
+        },
+        {
+          "id": "cat_food",
+          "name": "Food",
+          "description": "Bakery items, sandwiches, and snacks",
+          "imageUrl": "https://api.starbucks.com/images/food.jpg",
+          "itemCount": 45
+        }
+      ]
+    }
+  }
+}

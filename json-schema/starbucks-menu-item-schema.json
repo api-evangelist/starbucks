@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12",
+  "$id": "https://api.starbucks.com/schemas/menu-item",
+  "title": "Menu Item",
+  "description": "A Starbucks menu item including beverages, food, and merchandise with pricing, customization options, and nutritional data.",
+  "type": "object",
+  "required": ["id", "name", "categoryId"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the menu item"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the menu item",
+      "maxLength": 255
+    },
+    "description": {
+      "type": "string",
+      "description": "Marketing description of the menu item"
+    },
+    "price": {
+      "type": "number",
+      "format": "float",
+      "minimum": 0,
+      "description": "Base price in USD"
+    },
+    "imageUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to the product image"
+    },
+    "categoryId": {
+      "type": "string",
+      "description": "Identifier of the parent menu category"
+    },
+    "available": {
+      "type": "boolean",
+      "description": "Whether the item is currently available for ordering",
+      "default": true
+    },
+    "sizes": {
+      "type": "array",
+      "description": "Available size options for the item",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "price"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Size identifier (e.g., tall, grande, venti)"
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name of the size"
+          },
+          "price": {
+            "type": "number",
+            "format": "float",
+            "minimum": 0,
+            "description": "Price for this size"
+          }
+        }
+      }
+    },
+    "customizations": {
+      "type": "array",
+      "description": "Available customization options such as milk type, syrups, and extras",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Customization category (e.g., milk, syrup, topping)"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "name"],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "priceModifier": {
+                  "type": "number",
+                  "description": "Price change when this option is selected"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "calories": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Calorie count for the standard preparation"
+    },
+    "allergens": {
+      "type": "array",
+      "description": "List of allergens present in the item",
+      "items": {
+        "type": "string",
+        "enum": ["dairy", "eggs", "fish", "shellfish", "tree_nuts", "peanuts", "wheat", "soy", "sesame"]
+      }
+    }
+  },
+  "examples": [
+    {
+      "id": "item_caramel_macchiato",
+      "name": "Caramel Macchiato",
+      "description": "Freshly steamed milk with vanilla-flavored syrup marked with espresso and topped with caramel drizzle.",
+      "price": 5.75,
+      "imageUrl": "https://api.starbucks.com/images/caramel-macchiato.jpg",
+      "categoryId": "cat_hot_coffees",
+      "available": true,
+      "calories": 250,
+      "allergens": ["dairy", "soy"],
+      "sizes": [
+        {"id": "tall", "name": "Tall", "price": 4.95},
+        {"id": "grande", "name": "Grande", "price": 5.75},
+        {"id": "venti", "name": "Venti", "price": 6.45}
+      ]
+    }
+  ]
+}

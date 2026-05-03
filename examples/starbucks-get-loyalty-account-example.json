@@ -1,0 +1,25 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.starbucks.com/v1/loyalty/accounts/loyalty_abc123",
+    "headers": {
+      "Authorization": "Bearer {token}",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "id": "loyalty_abc123",
+      "memberName": "Jane Smith",
+      "tier": "Gold",
+      "starBalance": 450,
+      "ytdStars": 1240,
+      "memberSince": "2020-03-15",
+      "status": "active"
+    }
+  }
+}

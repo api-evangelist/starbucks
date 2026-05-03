@@ -1,0 +1,50 @@
+{
+  "name": "MenuItem",
+  "description": "Starbucks menu item including beverages, food, and merchandise",
+  "fields": [
+    {"name": "id", "type": "string", "required": true, "description": "Unique menu item identifier"},
+    {"name": "name", "type": "string", "required": true, "description": "Display name"},
+    {"name": "description", "type": "string", "required": false, "description": "Marketing description"},
+    {"name": "price", "type": "number", "required": false, "description": "Base price in USD"},
+    {"name": "imageUrl", "type": "string", "required": false, "description": "Product image URL"},
+    {"name": "categoryId", "type": "string", "required": true, "description": "Parent category identifier"},
+    {"name": "available", "type": "boolean", "required": false, "description": "Ordering availability flag"},
+    {
+      "name": "sizes",
+      "type": "array",
+      "required": false,
+      "description": "Available size options",
+      "items": {
+        "fields": [
+          {"name": "id", "type": "string", "description": "Size identifier"},
+          {"name": "name", "type": "string", "description": "Size display name"},
+          {"name": "price", "type": "number", "description": "Price for this size"}
+        ]
+      }
+    },
+    {
+      "name": "customizations",
+      "type": "array",
+      "required": false,
+      "description": "Customization options (milk, syrups, extras)",
+      "items": {
+        "fields": [
+          {"name": "type", "type": "string", "description": "Customization category"},
+          {
+            "name": "options",
+            "type": "array",
+            "items": {
+              "fields": [
+                {"name": "id", "type": "string"},
+                {"name": "name", "type": "string"},
+                {"name": "priceModifier", "type": "number"}
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {"name": "calories", "type": "integer", "required": false, "description": "Calorie count"},
+    {"name": "allergens", "type": "array", "required": false, "description": "Allergen list"}
+  ]
+}

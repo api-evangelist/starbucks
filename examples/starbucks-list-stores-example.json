@@ -1,0 +1,59 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.starbucks.com/v1/stores?latitude=47.6062&longitude=-122.3321&radius=2&limit=3",
+    "headers": {
+      "Authorization": "Bearer {token}",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "total": 12,
+      "stores": [
+        {
+          "id": "store_1007",
+          "name": "Pike Place Market",
+          "address": {
+            "street": "1912 Pike Place",
+            "city": "Seattle",
+            "state": "WA",
+            "postalCode": "98101",
+            "country": "US"
+          },
+          "coordinates": {
+            "latitude": 47.6087,
+            "longitude": -122.3405
+          },
+          "phone": "+12062481912",
+          "timezone": "America/Los_Angeles",
+          "mobileOrderingEnabled": false,
+          "driveThru": false
+        },
+        {
+          "id": "store_2234",
+          "name": "1st & Pike",
+          "address": {
+            "street": "400 Pike St",
+            "city": "Seattle",
+            "state": "WA",
+            "postalCode": "98101",
+            "country": "US"
+          },
+          "coordinates": {
+            "latitude": 47.6094,
+            "longitude": -122.3371
+          },
+          "phone": "+12062820001",
+          "timezone": "America/Los_Angeles",
+          "mobileOrderingEnabled": true,
+          "driveThru": false
+        }
+      ]
+    }
+  }
+}

@@ -2,31 +2,59 @@ openapi: 3.1.0
 info:
   title: Starbucks API
   description: >-
-    Starbucks provides partner APIs for ordering, loyalty program integration, store locations, and menu data. These APIs enable partners to integrate Starbucks ordering and rewards into their applications.
+    Starbucks provides partner APIs for ordering, loyalty program integration, store locations, and menu data. These APIs enable authorized partners to integrate Starbucks ordering, rewards, and store discovery into their applications and services.
   version: '1.0'
   contact:
     name: Starbucks Developer Support
     url: https://developer.starbucks.com/
+  termsOfService: https://www.starbucks.com/about-us/company-information/online-policies/terms-of-use
 externalDocs:
-  description: Documentation
+  description: Starbucks Developer Portal
   url: https://developer.starbucks.com/
 servers:
   - url: https://api.starbucks.com
     description: Production
 tags:
-  - name: Food Service
-    description: Food Service operations
+  - name: Status
+    description: API health and status operations
+  - name: Menu
+    description: Menu categories and items operations
+  - name: Stores
+    description: Store location and search operations
+  - name: Loyalty
+    description: Starbucks Rewards loyalty program operations
+  - name: Orders
+    description: Ordering and cart management operations
 security:
   - bearerAuth: []
 paths:
   /status:
     get:
       operationId: getStatus
-      summary: Get API status
+      summary: Get API Status
       description: >-
-        Returns the current status of the API.
+        Returns the current health and operational status of the Starbucks API.
       tags:
-        - Food Service
+        - Status
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiStatus'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests
+  /v1/menu/categories:
+    get:
+      operationId: listMenuCategories
+      summary: List Menu Categories
+      description: >-
+        Returns all available menu categories such as Hot Coffees, Cold Coffees, Teas, Refreshers, Food, and Merchandise.
+      tags:
+        - Menu
       responses:
         '200':
           description: Success
@@ -35,16 +63,594 @@ paths:
               schema:
                 type: object
                 properties:
-                  status:
-                    type: string
-                  version:
-                    type: string
+                  categories:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MenuCategory'
         '401':
           description: Unauthorized
         '429':
-          description: Too many requests
+          description: Too Many Requests
+  /v1/menu/categories/{categoryId}/items:
+    get:
+      operationId: listMenuItems
+      summary: List Menu Items
+      description: >-
+        Returns all menu items within a specific category, including product descriptions, pricing, sizes, and customization options.
+      tags:
+        - Menu
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          description: The unique identifier of the menu category
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          description: Maximum number of items to return
+          schema:
+            type: integer
+            default: 50
+        - name: offset
+          in: query
+          required: false
+          description: Pagination offset
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MenuItem'
+                  total:
+                    type: integer
+                  limit:
+                    type: integer
+                  offset:
+                    type: integer
+        '401':
+          description: Unauthorized
+        '404':
+          description: Category Not Found
+        '429':
+          description: Too Many Requests
+  /v1/menu/items/{itemId}:
+    get:
+      operationId: getMenuItem
+      summary: Get Menu Item
+      description: >-
+        Returns detailed information for a specific menu item including full nutritional data, allergen information, customization options, and available sizes.
+      tags:
+        - Menu
+      parameters:
+        - name: itemId
+          in: path
+          required: true
+          description: The unique identifier of the menu item
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuItemDetail'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Item Not Found
+        '429':
+          description: Too Many Requests
+  /v1/stores:
+    get:
+      operationId: listStores
+      summary: List Stores
+      description: >-
+        Search for Starbucks store locations by geographic coordinates, address, or city. Returns store details including hours, amenities, and contact information.
+      tags:
+        - Stores
+      parameters:
+        - name: latitude
+          in: query
+          required: false
+          description: Latitude coordinate for location-based search
+          schema:
+            type: number
+            format: float
+        - name: longitude
+          in: query
+          required: false
+          description: Longitude coordinate for location-based search
+          schema:
+            type: number
+            format: float
+        - name: query
+          in: query
+          required: false
+          description: Text search query (address, city, zip)
+          schema:
+            type: string
+        - name: radius
+          in: query
+          required: false
+          description: Search radius in miles
+          schema:
+            type: integer
+            default: 25
+        - name: limit
+          in: query
+          required: false
+          description: Maximum number of stores to return
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  stores:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Store'
+                  total:
+                    type: integer
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests
+  /v1/stores/{storeId}:
+    get:
+      operationId: getStore
+      summary: Get Store
+      description: >-
+        Returns detailed information for a specific Starbucks store location including address, hours of operation, amenities, and available services.
+      tags:
+        - Stores
+      parameters:
+        - name: storeId
+          in: path
+          required: true
+          description: The unique identifier of the store
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoreDetail'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Store Not Found
+        '429':
+          description: Too Many Requests
+  /v1/loyalty/accounts/{accountId}:
+    get:
+      operationId: getLoyaltyAccount
+      summary: Get Loyalty Account
+      description: >-
+        Returns Starbucks Rewards loyalty account details including star balance, membership tier, and account status.
+      tags:
+        - Loyalty
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The unique identifier of the loyalty account
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoyaltyAccount'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Account Not Found
+        '429':
+          description: Too Many Requests
+  /v1/loyalty/accounts/{accountId}/transactions:
+    get:
+      operationId: listLoyaltyTransactions
+      summary: List Loyalty Transactions
+      description: >-
+        Returns the star earning and redemption transaction history for a Starbucks Rewards account.
+      tags:
+        - Loyalty
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The unique identifier of the loyalty account
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          description: Maximum number of transactions to return
+          schema:
+            type: integer
+            default: 20
+        - name: offset
+          in: query
+          required: false
+          description: Pagination offset
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transactions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LoyaltyTransaction'
+                  total:
+                    type: integer
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Account Not Found
+        '429':
+          description: Too Many Requests
+  /v1/orders:
+    post:
+      operationId: createOrder
+      summary: Create Order
+      description: >-
+        Creates a new Starbucks order for mobile ordering or partner-initiated ordering. Supports customized beverages, food items, and merchandise.
+      tags:
+        - Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '201':
+          description: Order Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity
+        '429':
+          description: Too Many Requests
+  /v1/orders/{orderId}:
+    get:
+      operationId: getOrder
+      summary: Get Order
+      description: >-
+        Returns the current status and details of a specific order.
+      tags:
+        - Orders
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          description: The unique identifier of the order
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Order Not Found
+        '429':
+          description: Too Many Requests
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ApiStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - ok
+            - degraded
+            - maintenance
+        version:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+    MenuCategory:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        imageUrl:
+          type: string
+        itemCount:
+          type: integer
+    MenuItem:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: float
+        imageUrl:
+          type: string
+        categoryId:
+          type: string
+        available:
+          type: boolean
+    MenuItemDetail:
+      allOf:
+        - $ref: '#/components/schemas/MenuItem'
+        - type: object
+          properties:
+            sizes:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  price:
+                    type: number
+            customizations:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  options:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        priceModifier:
+                          type: number
+            calories:
+              type: integer
+            allergens:
+              type: array
+              items:
+                type: string
+    Store:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+        phone:
+          type: string
+        timezone:
+          type: string
+    StoreDetail:
+      allOf:
+        - $ref: '#/components/schemas/Store'
+        - type: object
+          properties:
+            hours:
+              type: array
+              items:
+                type: object
+                properties:
+                  day:
+                    type: string
+                  open:
+                    type: string
+                  close:
+                    type: string
+            amenities:
+              type: array
+              items:
+                type: string
+            services:
+              type: array
+              items:
+                type: string
+            mobileOrderingEnabled:
+              type: boolean
+            driveThru:
+              type: boolean
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+    Coordinates:
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: float
+        longitude:
+          type: number
+          format: float
+    LoyaltyAccount:
+      type: object
+      properties:
+        id:
+          type: string
+        memberName:
+          type: string
+        tier:
+          type: string
+          enum:
+            - Welcome
+            - Green
+            - Gold
+        starBalance:
+          type: integer
+        ytdStars:
+          type: integer
+        memberSince:
+          type: string
+          format: date
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+            - suspended
+    LoyaltyTransaction:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+            - earn
+            - redeem
+            - expire
+            - bonus
+        stars:
+          type: integer
+        description:
+          type: string
+        storeId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        orderId:
+          type: string
+    CreateOrderRequest:
+      type: object
+      required:
+        - storeId
+        - items
+      properties:
+        storeId:
+          type: string
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              menuItemId:
+                type: string
+              quantity:
+                type: integer
+              sizeId:
+                type: string
+              customizations:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                    optionId:
+                      type: string
+        loyaltyAccountId:
+          type: string
+        redemptionStars:
+          type: integer
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+            - pending
+            - accepted
+            - preparing
+            - ready
+            - completed
+            - cancelled
+        storeId:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/MenuItem'
+        subtotal:
+          type: number
+          format: float
+        tax:
+          type: number
+          format: float
+        total:
+          type: number
+          format: float
+        starsEarned:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        estimatedReadyAt:
+          type: string
+          format: date-time

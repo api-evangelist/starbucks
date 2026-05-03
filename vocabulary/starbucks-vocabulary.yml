@@ -1,0 +1,131 @@
+name: Starbucks Vocabulary
+description: >-
+  Domain vocabulary for the Starbucks API covering food service, loyalty programs, mobile ordering, and store management concepts.
+created: '2026-05-02'
+modified: '2026-05-02'
+terms:
+  - term: Starbucks Rewards
+    definition: >-
+      Starbucks' customer loyalty program where members earn Stars on qualifying purchases and redeem them for free drinks, food, and merchandise.
+    tags:
+      - Loyalty
+      - Rewards
+
+  - term: Stars
+    definition: >-
+      The loyalty currency of Starbucks Rewards. Members earn 2 Stars per $1 spent with a registered Starbucks card or app. Stars can be redeemed for free items.
+    tags:
+      - Loyalty
+      - Currency
+
+  - term: Gold Status
+    definition: >-
+      The highest tier of Starbucks Rewards membership, achieved by earning 300 Stars in a 12-month period. Gold members receive a free reward every 25 Stars and a personalized Gold card.
+    tags:
+      - Loyalty
+      - Tier
+
+  - term: Green Status
+    definition: >-
+      The intermediate tier of Starbucks Rewards membership. Members who haven't yet achieved Gold Status but have registered their card receive Green status benefits.
+    tags:
+      - Loyalty
+      - Tier
+
+  - term: Mobile Order & Pay
+    definition: >-
+      Starbucks' feature allowing customers to order and pay via the Starbucks app before arriving at a store, reducing wait times.
+    tags:
+      - Ordering
+      - Mobile
+
+  - term: Customization
+    definition: >-
+      Modifications made to a standard menu item such as milk type (oat, almond, soy), syrup pumps, temperature adjustments, and topping additions or removals.
+    tags:
+      - Menu
+      - Ordering
+
+  - term: Tall
+    definition: >-
+      The smallest standard hot beverage size at Starbucks, equivalent to 12 fluid ounces.
+    tags:
+      - Menu
+      - Size
+
+  - term: Grande
+    definition: >-
+      The medium standard beverage size at Starbucks, equivalent to 16 fluid ounces.
+    tags:
+      - Menu
+      - Size
+
+  - term: Venti
+    definition: >-
+      The large standard beverage size at Starbucks, equivalent to 20 fluid ounces for hot drinks and 24 ounces for cold drinks.
+    tags:
+      - Menu
+      - Size
+
+  - term: Trenta
+    definition: >-
+      The extra-large cold beverage size at Starbucks, equivalent to 30 fluid ounces. Available for iced coffees, cold brew, and iced teas only.
+    tags:
+      - Menu
+      - Size
+
+  - term: Cold Brew
+    definition: >-
+      Coffee steeped in cold water for 20+ hours, resulting in a smooth, less acidic concentrate served over ice.
+    tags:
+      - Menu
+      - Beverage
+
+  - term: Frappuccino
+    definition: >-
+      Starbucks' proprietary blended iced beverage trademark, combining coffee or crème base with ice and milk, topped with whipped cream.
+    tags:
+      - Menu
+      - Beverage
+
+  - term: Refresher
+    definition: >-
+      Starbucks fruit and botanical-based sparkling beverages made with real fruit juice and green coffee extract, served over ice.
+    tags:
+      - Menu
+      - Beverage
+
+  - term: Partner
+    definition: >-
+      In Starbucks terminology, a licensed or authorized third-party company that integrates with the Starbucks API to provide Starbucks experiences within their own applications.
+    tags:
+      - API
+      - Partner
+
+  - term: Store Locator
+    definition: >-
+      A geographic search capability that returns nearby Starbucks store locations based on latitude/longitude coordinates or address input.
+    tags:
+      - Stores
+      - Discovery
+
+  - term: Bearer Token
+    definition: >-
+      The OAuth2-based JWT access token required to authenticate API requests to the Starbucks API. Obtained through the Starbucks Developer Portal OAuth2 flow.
+    tags:
+      - Authentication
+      - Security
+
+  - term: Drive-Through
+    definition: >-
+      A service lane at select Starbucks locations allowing customers to order and receive their drinks without leaving their vehicle.
+    tags:
+      - Stores
+      - Service
+
+  - term: Reserve
+    definition: >-
+      Premium Starbucks locations offering exclusive, small-lot coffees and specialty brewing methods including siphon, Chemex, and clover.
+    tags:
+      - Stores
+      - Premium
