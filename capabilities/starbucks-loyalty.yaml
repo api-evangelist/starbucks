@@ -1,0 +1,134 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Starbucks API — Loyalty
+  description: 'Starbucks API — Loyalty. 2 operations. Lead operation: Get Loyalty Account. Self-contained Naftiko capability
+    covering one Starbucks business surface.'
+  tags:
+  - Starbucks
+  - Loyalty
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    STARBUCKS_API_KEY: STARBUCKS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: starbucks-loyalty
+    baseUri: https://api.starbucks.com
+    description: Starbucks API — Loyalty business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-loyalty-accounts-accountId
+      path: /v1/loyalty/accounts/{accountId}
+      operations:
+      - name: getloyaltyaccount
+        method: GET
+        description: Get Loyalty Account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: accountId
+          in: path
+          type: string
+          description: The unique identifier of the loyalty account
+          required: true
+    - name: v1-loyalty-accounts-accountId-transactions
+      path: /v1/loyalty/accounts/{accountId}/transactions
+      operations:
+      - name: listloyaltytransactions
+        method: GET
+        description: List Loyalty Transactions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: accountId
+          in: path
+          type: string
+          description: The unique identifier of the loyalty account
+          required: true
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of transactions to return
+        - name: offset
+          in: query
+          type: integer
+          description: Pagination offset
+    authentication:
+      type: bearer
+      token: '{{env.STARBUCKS_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: starbucks-loyalty-rest
+    port: 8080
+    description: REST adapter for Starbucks API — Loyalty. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v1/loyalty/accounts/{accountid}
+      name: v1-loyalty-accounts-accountid
+      description: REST surface for v1-loyalty-accounts-accountId.
+      operations:
+      - method: GET
+        name: getloyaltyaccount
+        description: Get Loyalty Account
+        call: starbucks-loyalty.getloyaltyaccount
+        with:
+          accountId: rest.accountId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/loyalty/accounts/{accountid}/transactions
+      name: v1-loyalty-accounts-accountid-transactions
+      description: REST surface for v1-loyalty-accounts-accountId-transactions.
+      operations:
+      - method: GET
+        name: listloyaltytransactions
+        description: List Loyalty Transactions
+        call: starbucks-loyalty.listloyaltytransactions
+        with:
+          accountId: rest.accountId
+          limit: rest.limit
+          offset: rest.offset
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: starbucks-loyalty-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Starbucks API — Loyalty. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: get-loyalty-account
+      description: Get Loyalty Account
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: starbucks-loyalty.getloyaltyaccount
+      with:
+        accountId: tools.accountId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-loyalty-transactions
+      description: List Loyalty Transactions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: starbucks-loyalty.listloyaltytransactions
+      with:
+        accountId: tools.accountId
+        limit: tools.limit
+        offset: tools.offset
+      outputParameters:
+      - type: object
+        mapping: $.

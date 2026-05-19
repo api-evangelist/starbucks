@@ -1,0 +1,145 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Starbucks API — Stores
+  description: 'Starbucks API — Stores. 2 operations. Lead operation: List Stores. Self-contained Naftiko capability covering
+    one Starbucks business surface.'
+  tags:
+  - Starbucks
+  - Stores
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    STARBUCKS_API_KEY: STARBUCKS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: starbucks-stores
+    baseUri: https://api.starbucks.com
+    description: Starbucks API — Stores business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-stores
+      path: /v1/stores
+      operations:
+      - name: liststores
+        method: GET
+        description: List Stores
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: latitude
+          in: query
+          type: number
+          description: Latitude coordinate for location-based search
+        - name: longitude
+          in: query
+          type: number
+          description: Longitude coordinate for location-based search
+        - name: query
+          in: query
+          type: string
+          description: Text search query (address, city, zip)
+        - name: radius
+          in: query
+          type: integer
+          description: Search radius in miles
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of stores to return
+    - name: v1-stores-storeId
+      path: /v1/stores/{storeId}
+      operations:
+      - name: getstore
+        method: GET
+        description: Get Store
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: storeId
+          in: path
+          type: string
+          description: The unique identifier of the store
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.STARBUCKS_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: starbucks-stores-rest
+    port: 8080
+    description: REST adapter for Starbucks API — Stores. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v1/stores
+      name: v1-stores
+      description: REST surface for v1-stores.
+      operations:
+      - method: GET
+        name: liststores
+        description: List Stores
+        call: starbucks-stores.liststores
+        with:
+          latitude: rest.latitude
+          longitude: rest.longitude
+          query: rest.query
+          radius: rest.radius
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/stores/{storeid}
+      name: v1-stores-storeid
+      description: REST surface for v1-stores-storeId.
+      operations:
+      - method: GET
+        name: getstore
+        description: Get Store
+        call: starbucks-stores.getstore
+        with:
+          storeId: rest.storeId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: starbucks-stores-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Starbucks API — Stores. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-stores
+      description: List Stores
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: starbucks-stores.liststores
+      with:
+        latitude: tools.latitude
+        longitude: tools.longitude
+        query: tools.query
+        radius: tools.radius
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-store
+      description: Get Store
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: starbucks-stores.getstore
+      with:
+        storeId: tools.storeId
+      outputParameters:
+      - type: object
+        mapping: $.
