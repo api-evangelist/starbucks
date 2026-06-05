@@ -7,47 +7,39 @@ tags:
   - Loyalty
   - Ordering
   - Retail
+  - Fortune 500
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 created: '2024-01-01'
 modified: '2026-05-19'
-description: Starbucks provides partner APIs for ordering, loyalty program integration, store locations, and menu data through
-  their developer portal. These APIs enable authorized partners to integrate Starbucks ordering, rewards, and store discovery
-  into their applications.
+description: >-
+  Starbucks provides partner APIs for ordering, loyalty program integration, store locations, and menu data through
+  their developer portal. These APIs enable authorized partners to integrate Starbucks ordering, rewards, and store
+  discovery into their applications.
 apis:
   - aid: starbucks:starbucks-api
     name: Starbucks API
     tags:
-    - Food Service
-    - Coffee
-    - Ordering
-    - Loyalty
-    - Store Locator
-    - Menu
+      - Food Service
+      - Coffee
+      - Ordering
+      - Loyalty
+      - Store Locator
+      - Menu
     properties:
-    - url: https://developer.starbucks.com/
-      type: Portal
-    - url: https://portal.starbucks.com/
-      type: Documentation
-    - url: https://raw.githubusercontent.com/api-evangelist/starbucks/refs/heads/main/openapi/starbucks-starbucks-api-openapi.yml
-      type: OpenAPI
-    - url: https://raw.githubusercontent.com/api-evangelist/starbucks/refs/heads/main/rules/starbucks-rules.yml
-      type: SpectralRules
-    - url: https://raw.githubusercontent.com/api-evangelist/starbucks/refs/heads/main/capabilities/food-service.yaml
-      type: NaftikoCapabilities
-    - type: NaftikoCapability
-      url: capabilities/starbucks-loyalty.yaml
-    - type: NaftikoCapability
-      url: capabilities/starbucks-menu.yaml
-    - type: NaftikoCapability
-      url: capabilities/starbucks-orders.yaml
-    - type: NaftikoCapability
-      url: capabilities/starbucks-status.yaml
-    - type: NaftikoCapability
-      url: capabilities/starbucks-stores.yaml
-    description: The Starbucks API provides partner access to ordering workflows, loyalty program management, store location
-      discovery, and menu data. Authorized partners use OAuth2 bearer token authentication to integrate Starbucks experiences
-      into their applications and services.
+      - url: https://developer.starbucks.com/
+        type: Portal
+      - url: https://portal.starbucks.com/
+        type: Documentation
+      - url: >-
+          https://raw.githubusercontent.com/api-evangelist/starbucks/refs/heads/main/openapi/starbucks-starbucks-api-openapi.yml
+        type: OpenAPI
+      - url: https://raw.githubusercontent.com/api-evangelist/starbucks/refs/heads/main/rules/starbucks-rules.yml
+        type: SpectralRules
+    description: >-
+      The Starbucks API provides partner access to ordering workflows, loyalty program management, store location
+      discovery, and menu data. Authorized partners use OAuth2 bearer token authentication to integrate Starbucks
+      experiences into their applications and services.
 common:
   - type: GitHubOrganization
     url: https://github.com/starbucks
