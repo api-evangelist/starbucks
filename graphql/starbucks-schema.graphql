@@ -1,0 +1,770 @@
+# Starbucks GraphQL Schema
+# Conceptual schema derived from the Starbucks partner API ecosystem,
+# My Starbucks Rewards program, and Starbucks mobile ordering experience.
+# Source: https://developer.starbucks.com/
+
+# ─── Auth ───────────────────────────────────────────────────────────────────
+
+type APIKey {
+  id: ID!
+  key: String!
+  name: String
+  createdAt: String
+  expiresAt: String
+  scopes: [String]
+  status: String
+}
+
+type Token {
+  accessToken: String!
+  tokenType: String!
+  expiresIn: Int!
+  scope: String
+  refreshToken: String
+  issuedAt: String
+}
+
+# ─── Store ───────────────────────────────────────────────────────────────────
+
+type Store {
+  id: ID!
+  name: String!
+  storeNumber: String
+  details: StoreDetails
+  location: StoreLocation
+  hours: [StoreHours]
+  features: StoreFeatures
+  images: [StoreImage]
+  phoneNumber: String
+  timezone: String
+  open: Boolean
+  driveThrough: DriveThrough
+  curbside: Curbside
+  mobileOrderEnabled: Boolean
+}
+
+type StoreDetails {
+  id: ID!
+  storeId: ID!
+  brand: String
+  ownershipType: String
+  facilityType: String
+  countryCode: String
+  currencyCode: String
+  languageCode: String
+}
+
+type StoreHours {
+  id: ID!
+  storeId: ID!
+  dayOfWeek: String!
+  openTime: String
+  closeTime: String
+  open24Hours: Boolean
+  closed: Boolean
+}
+
+type StoreLocation {
+  id: ID!
+  storeId: ID!
+  address: String
+  city: String
+  stateProvince: String
+  postalCode: String
+  countryCode: String
+  latitude: Float
+  longitude: Float
+  distanceMiles: Float
+}
+
+type StoreFeatures {
+  id: ID!
+  storeId: ID!
+  wifi: Boolean
+  drivethru: Boolean
+  mobileOrder: Boolean
+  curbside: Boolean
+  reserve: Boolean
+  eveningMenu: Boolean
+  heating: Boolean
+  laBoulange: Boolean
+}
+
+type DriveThrough {
+  id: ID!
+  storeId: ID!
+  enabled: Boolean
+  estimatedWaitMinutes: Int
+  mobileOrderSupported: Boolean
+}
+
+type Curbside {
+  id: ID!
+  storeId: ID!
+  enabled: Boolean
+  instructions: String
+  estimatedWaitMinutes: Int
+}
+
+type StoreImage {
+  id: ID!
+  storeId: ID!
+  url: String!
+  altText: String
+  isPrimary: Boolean
+  width: Int
+  height: Int
+}
+
+# ─── Mobile & In-Store Ordering ──────────────────────────────────────────────
+
+type MobileOrder {
+  id: ID!
+  storeId: ID!
+  customerId: ID!
+  status: OrderStatus
+  items: [OrderItem]
+  estimatedReadyTime: String
+  placedAt: String
+  pickupType: String
+}
+
+type InStoreOrder {
+  id: ID!
+  storeId: ID!
+  registerNumber: String
+  cashierId: String
+  items: [OrderItem]
+  total: Float
+  tax: Float
+  completedAt: String
+}
+
+# ─── Menu & Products ─────────────────────────────────────────────────────────
+
+type MenuBoard {
+  id: ID!
+  storeId: ID!
+  categories: [ProductCategory]
+  lastUpdated: String
+  locale: String
+}
+
+type SeasonalMenu {
+  id: ID!
+  name: String!
+  startDate: String
+  endDate: String
+  products: [Product]
+  featured: [Product]
+  description: String
+}
+
+type Product {
+  id: ID!
+  name: String!
+  sku: String
+  category: ProductCategory
+  details: ProductDetails
+  sizes: [ProductSize]
+  customizations: [ProductCustomization]
+  calories: Int
+  price: Float
+  available: Boolean
+  seasonal: Boolean
+  imageUrl: String
+}
+
+type Beverage {
+  id: ID!
+  name: String!
+  sku: String
+  category: ProductCategory
+  details: ProductDetails
+  sizes: [ProductSize]
+  customizations: [ProductCustomization]
+  calories: Int
+  price: Float
+  available: Boolean
+  seasonal: Boolean
+  hot: Boolean
+  iced: Boolean
+  blended: Boolean
+  caffeinated: Boolean
+  imageUrl: String
+  defaultMilk: Milk
+  defaultEspresso: Espresso
+  defaultTemperature: Temperature
+}
+
+type Food {
+  id: ID!
+  name: String!
+  sku: String
+  category: ProductCategory
+  details: ProductDetails
+  sizes: [ProductSize]
+  calories: Int
+  price: Float
+  available: Boolean
+  seasonal: Boolean
+  allergens: [String]
+  ingredients: [String]
+  imageUrl: String
+  warmable: Boolean
+}
+
+type PackagedGoods {
+  id: ID!
+  name: String!
+  sku: String
+  category: ProductCategory
+  details: ProductDetails
+  price: Float
+  available: Boolean
+  imageUrl: String
+  weight: Float
+  servings: Int
+  beanOrigin: String
+  roastLevel: String
+}
+
+type Merchandise {
+  id: ID!
+  name: String!
+  sku: String
+  category: ProductCategory
+  details: ProductDetails
+  price: Float
+  available: Boolean
+  imageUrl: String
+  color: String
+  capacity: Float
+  material: String
+}
+
+type ProductDetails {
+  id: ID!
+  productId: ID!
+  description: String
+  longDescription: String
+  tags: [String]
+  nutritionInfo: String
+  alcoholic: Boolean
+  newItem: Boolean
+  limitedTime: Boolean
+}
+
+type ProductCategory {
+  id: ID!
+  name: String!
+  parentId: ID
+  displayOrder: Int
+  imageUrl: String
+}
+
+type ProductSize {
+  id: ID!
+  productId: ID!
+  name: String!
+  abbreviation: String
+  fluidOunces: Float
+  calories: Int
+  price: Float
+  default: Boolean
+}
+
+type ProductCustomization {
+  id: ID!
+  productId: ID!
+  name: String!
+  options: [CustomizationOption]
+  required: Boolean
+  multiSelect: Boolean
+}
+
+type CustomizationOption {
+  id: ID!
+  customizationId: ID!
+  name: String!
+  priceDelta: Float
+  calories: Int
+  available: Boolean
+  default: Boolean
+}
+
+type Syrup {
+  id: ID!
+  name: String!
+  pumps: Int
+  sugarFree: Boolean
+  priceDelta: Float
+  seasonal: Boolean
+}
+
+type Milk {
+  id: ID!
+  name: String!
+  dairyFree: Boolean
+  vegan: Boolean
+  calories: Int
+  priceDelta: Float
+}
+
+type Whip {
+  id: ID!
+  name: String!
+  added: Boolean
+  priceDelta: Float
+}
+
+type Espresso {
+  id: ID!
+  name: String!
+  shots: Int
+  ristretto: Boolean
+  blonde: Boolean
+  decaf: Boolean
+  priceDelta: Float
+}
+
+type Temperature {
+  id: ID!
+  name: String!
+  level: String
+  iced: Boolean
+  hot: Boolean
+}
+
+type Decaf {
+  id: ID!
+  productId: ID!
+  available: Boolean
+  halfCafOption: Boolean
+}
+
+type Extra {
+  id: ID!
+  name: String!
+  type: String
+  priceDelta: Float
+  calories: Int
+}
+
+# ─── Offers ──────────────────────────────────────────────────────────────────
+
+type SpecialOffer {
+  id: ID!
+  name: String!
+  description: String
+  discountType: String
+  discountValue: Float
+  validFrom: String
+  validTo: String
+  applicableProducts: [Product]
+  imageUrl: String
+}
+
+type DailyOffer {
+  id: ID!
+  date: String!
+  name: String
+  description: String
+  discountType: String
+  discountValue: Float
+  applicableProducts: [Product]
+  limitPerCustomer: Int
+}
+
+# ─── Ordering ────────────────────────────────────────────────────────────────
+
+type Order {
+  id: ID!
+  customerId: ID!
+  storeId: ID!
+  items: [OrderItem]
+  status: OrderStatus!
+  subtotal: Float
+  tax: Float
+  total: Float
+  payment: Payment
+  placedAt: String
+  estimatedReadyTime: String
+  completedAt: String
+  pickupType: String
+  mobileOrderReady: MobileOrderReady
+}
+
+type OrderItem {
+  id: ID!
+  orderId: ID!
+  product: Product!
+  size: ProductSize
+  quantity: Int!
+  customizations: [OrderCustomization]
+  price: Float
+  specialInstructions: String
+}
+
+type OrderCustomization {
+  id: ID!
+  orderItemId: ID!
+  customization: ProductCustomization
+  selectedOption: CustomizationOption
+  quantity: Int
+  notes: String
+}
+
+type OrderStatus {
+  id: ID!
+  orderId: ID!
+  status: String!
+  updatedAt: String
+  estimatedReadyTime: String
+  message: String
+}
+
+type MobileOrderReady {
+  id: ID!
+  orderId: ID!
+  readyAt: String
+  notificationSent: Boolean
+  pickupCounter: String
+  baristaName: String
+}
+
+# ─── Payment ─────────────────────────────────────────────────────────────────
+
+type Payment {
+  id: ID!
+  orderId: ID!
+  method: String!
+  amount: Float!
+  currency: String
+  status: String
+  processedAt: String
+  starsPay: StarsPay
+  applePay: ApplePay
+  giftCard: GiftCard
+}
+
+type StarsPay {
+  id: ID!
+  memberId: ID!
+  starsRedeemed: Int
+  dollarValue: Float
+  transactionId: String
+  processedAt: String
+}
+
+type ApplePay {
+  id: ID!
+  transactionId: String
+  amount: Float
+  currency: String
+  status: String
+  processedAt: String
+}
+
+type GiftCard {
+  id: ID!
+  memberId: ID
+  cardNumber: String!
+  balance: DigitalCardBalance
+  isVirtual: Boolean
+  registeredAt: String
+  lastUsedAt: String
+  status: String
+}
+
+type DigitalCardBalance {
+  id: ID!
+  cardId: ID!
+  amount: Float!
+  currency: String!
+  asOf: String
+}
+
+# ─── Loyalty ─────────────────────────────────────────────────────────────────
+
+type Loyalty {
+  id: ID!
+  memberId: ID!
+  customer: Customer
+  tier: LoyaltyTier
+  points: LoyaltyPoints
+  stars: Stars
+  bonuses: [Bonus]
+  challenges: [StarChallenges]
+  birthday: Birthday
+  memberSince: String
+  lastActivityAt: String
+}
+
+type StarRewards {
+  id: ID!
+  memberId: ID!
+  rewardType: String!
+  starsRequired: Int!
+  description: String
+  redeemedAt: String
+  expiresAt: String
+  rewardCode: String
+}
+
+type LoyaltyTier {
+  id: ID!
+  name: String!
+  level: Int
+  starsRequired: Int
+  benefits: [String]
+  color: String
+}
+
+type LoyaltyPoints {
+  id: ID!
+  memberId: ID!
+  total: Int!
+  ytd: Int
+  pendingStars: Int
+  lastEarnedAt: String
+}
+
+type Stars {
+  id: ID!
+  memberId: ID!
+  available: Int!
+  lifetime: Int
+  expiringStars: Int
+  expiresAt: String
+  earnRate: Float
+}
+
+type Bonus {
+  id: ID!
+  memberId: ID!
+  name: String
+  description: String
+  bonusStars: Int
+  triggeredBy: String
+  earnedAt: String
+  expiresAt: String
+}
+
+type StarChallenges {
+  id: ID!
+  memberId: ID!
+  name: String!
+  description: String
+  targetStars: Int
+  currentProgress: Int
+  bonusStars: Int
+  startDate: String
+  endDate: String
+  completed: Boolean
+  completedAt: String
+}
+
+type Birthday {
+  id: ID!
+  memberId: ID!
+  month: Int
+  day: Int
+  rewardActive: Boolean
+  rewardValidFrom: String
+  rewardValidTo: String
+  rewardDescription: String
+}
+
+# ─── Personalization ─────────────────────────────────────────────────────────
+
+type Personalization {
+  id: ID!
+  customerId: ID!
+  drinkPreferences: DrinkPreferences
+  favoriteStores: [Store]
+  favoriteProducts: [Product]
+  recentOrders: [Order]
+  suggestedProducts: [Product]
+}
+
+type DrinkPreferences {
+  id: ID!
+  customerId: ID!
+  preferredMilk: Milk
+  preferredSyrup: Syrup
+  preferredTemperature: Temperature
+  caffeinated: Boolean
+  preferDecaf: Boolean
+  preferredSize: ProductSize
+  notes: String
+}
+
+# ─── Customer ────────────────────────────────────────────────────────────────
+
+type Customer {
+  id: ID!
+  profile: CustomerProfile
+  memberId: MemberID
+  accountStatus: AccountStatus
+  accountHistory: AccountHistory
+  loyalty: Loyalty
+  personalization: Personalization
+  giftCards: [GiftCard]
+  createdAt: String
+  updatedAt: String
+}
+
+type CustomerProfile {
+  id: ID!
+  customerId: ID!
+  firstName: String
+  lastName: String
+  email: String
+  phoneNumber: String
+  preferredName: String
+  locale: String
+  countryCode: String
+  avatarUrl: String
+  emailVerified: Boolean
+}
+
+type MemberID {
+  id: ID!
+  customerId: ID!
+  memberId: String!
+  barcode: String
+  qrCodeUrl: String
+  status: String
+  issuedAt: String
+}
+
+type AccountStatus {
+  id: ID!
+  customerId: ID!
+  active: Boolean!
+  locked: Boolean
+  reason: String
+  lastLoginAt: String
+  twoFactorEnabled: Boolean
+}
+
+type AccountHistory {
+  id: ID!
+  customerId: ID!
+  orders: [Order]
+  transactions: [Payment]
+  starActivity: [Stars]
+  offersRedeemed: [Offer]
+}
+
+# ─── Promotions ──────────────────────────────────────────────────────────────
+
+type Offer {
+  id: ID!
+  memberId: ID
+  name: String!
+  description: String
+  type: String
+  discountType: String
+  discountValue: Float
+  starsBonus: Int
+  validFrom: String
+  validTo: String
+  redeemed: Boolean
+  redeemedAt: String
+  applicableProducts: [Product]
+  imageUrl: String
+  terms: String
+}
+
+type PromoCode {
+  id: ID!
+  code: String!
+  offerId: ID
+  description: String
+  validFrom: String
+  validTo: String
+  maxRedemptions: Int
+  redemptionsUsed: Int
+  active: Boolean
+}
+
+# ─── Input Types ─────────────────────────────────────────────────────────────
+
+input LocationInput {
+  latitude: Float!
+  longitude: Float!
+}
+
+input StoreFiltersInput {
+  mobileOrder: Boolean
+  driveThrough: Boolean
+  curbside: Boolean
+  openNow: Boolean
+  maxResults: Int
+}
+
+input OrderInput {
+  customerId: ID!
+  storeId: ID!
+  items: [OrderItemInput!]!
+  pickupType: String
+  paymentMethodId: ID
+}
+
+input OrderItemInput {
+  productId: ID!
+  sizeId: ID
+  quantity: Int!
+  customizations: [OrderCustomizationInput]
+  specialInstructions: String
+}
+
+input OrderCustomizationInput {
+  customizationId: ID!
+  selectedOptionId: ID!
+  quantity: Int
+}
+
+# ─── Root Operations ─────────────────────────────────────────────────────────
+
+type Query {
+  store(id: ID!): Store
+  stores(location: LocationInput, radius: Float, filters: StoreFiltersInput): [Store]
+  product(id: ID!): Product
+  beverage(id: ID!): Beverage
+  food(id: ID!): Food
+  menu(storeId: ID!): MenuBoard
+  seasonalMenu: SeasonalMenu
+  order(id: ID!): Order
+  customer(id: ID!): Customer
+  loyalty(memberId: ID!): Loyalty
+  offers(memberId: ID!): [Offer]
+  giftCardBalance(cardNumber: String!, pin: String!): DigitalCardBalance
+  starChallenges(memberId: ID!): [StarChallenges]
+  drinkPreferences(customerId: ID!): DrinkPreferences
+}
+
+type Mutation {
+  placeOrder(input: OrderInput!): Order
+  updateOrderItem(orderId: ID!, itemId: ID!, customization: OrderCustomizationInput!): OrderItem
+  cancelOrder(id: ID!): OrderStatus
+  redeemOffer(memberId: ID!, offerId: ID!): Offer
+  redeemStars(memberId: ID!, stars: Int!): StarRewards
+  addGiftCard(memberId: ID!, cardNumber: String!, pin: String!): GiftCard
+  transferGiftCardBalance(fromCardId: ID!, toCardId: ID!): GiftCard
+  updateDrinkPreferences(customerId: ID!, preferences: DrinkPreferencesInput!): DrinkPreferences
+  addFavoriteStore(customerId: ID!, storeId: ID!): Store
+  addFavoriteProduct(customerId: ID!, productId: ID!): Product
+}
+
+input DrinkPreferencesInput {
+  preferredMilkId: ID
+  preferredSyrupId: ID
+  preferredTemperatureId: ID
+  caffeinated: Boolean
+  preferDecaf: Boolean
+  preferredSizeId: ID
+  notes: String
+}
