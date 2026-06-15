@@ -1,0 +1,274 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Starbucks API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Status",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get API Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.starbucks.com/status"
+          },
+          "docs": "Returns the current health and operational status of the Starbucks API."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Menu",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Menu Categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.starbucks.com/v1/menu/categories"
+          },
+          "docs": "Returns all available menu categories such as Hot Coffees, Cold Coffees, Teas, Refreshers, Food, and Merchandise."
+        },
+        {
+          "info": {
+            "name": "List Menu Items",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.starbucks.com/v1/menu/categories/:categoryId/items",
+            "params": [
+              {
+                "name": "categoryId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the menu category"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Pagination offset"
+              }
+            ]
+          },
+          "docs": "Returns all menu items within a specific category, including product descriptions, pricing, sizes, and customization options."
+        },
+        {
+          "info": {
+            "name": "Get Menu Item",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.starbucks.com/v1/menu/items/:itemId",
+            "params": [
+              {
+                "name": "itemId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the menu item"
+              }
+            ]
+          },
+          "docs": "Returns detailed information for a specific menu item including full nutritional data, allergen information, customization options, and available sizes."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Stores",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Stores",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.starbucks.com/v1/stores",
+            "params": [
+              {
+                "name": "latitude",
+                "value": "",
+                "type": "query",
+                "description": "Latitude coordinate for location-based search"
+              },
+              {
+                "name": "longitude",
+                "value": "",
+                "type": "query",
+                "description": "Longitude coordinate for location-based search"
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Text search query (address, city, zip)"
+              },
+              {
+                "name": "radius",
+                "value": "",
+                "type": "query",
+                "description": "Search radius in miles"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of stores to return"
+              }
+            ]
+          },
+          "docs": "Search for Starbucks store locations by geographic coordinates, address, or city. Returns store details including hours, amenities, and contact information."
+        },
+        {
+          "info": {
+            "name": "Get Store",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.starbucks.com/v1/stores/:storeId",
+            "params": [
+              {
+                "name": "storeId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the store"
+              }
+            ]
+          },
+          "docs": "Returns detailed information for a specific Starbucks store location including address, hours of operation, amenities, and available services."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Loyalty",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Loyalty Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.starbucks.com/v1/loyalty/accounts/:accountId",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the loyalty account"
+              }
+            ]
+          },
+          "docs": "Returns Starbucks Rewards loyalty account details including star balance, membership tier, and account status."
+        },
+        {
+          "info": {
+            "name": "List Loyalty Transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.starbucks.com/v1/loyalty/accounts/:accountId/transactions",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the loyalty account"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of transactions to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Pagination offset"
+              }
+            ]
+          },
+          "docs": "Returns the star earning and redemption transaction history for a Starbucks Rewards account."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Orders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.starbucks.com/v1/orders",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new Starbucks order for mobile ordering or partner-initiated ordering. Supports customized beverages, food items, and merchandise."
+        },
+        {
+          "info": {
+            "name": "Get Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.starbucks.com/v1/orders/:orderId",
+            "params": [
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the order"
+              }
+            ]
+          },
+          "docs": "Returns the current status and details of a specific order."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
