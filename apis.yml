@@ -42,6 +42,10 @@ apis:
     use OAuth2 bearer token authentication to integrate Starbucks experiences into
     their applications and services.
 common:
+- type: DomainSecurity
+  url: security/starbucks-domain-security.yml
+- type: Authentication
+  url: authentication/starbucks-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/starbucks
 - url: https://www.starbucks.com/
