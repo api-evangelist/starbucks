@@ -1,0 +1,156 @@
+openapi: 3.1.0
+info:
+  title: Starbucks Loyalty API
+  description: Starbucks provides partner APIs for ordering, loyalty program integration, store locations, and menu data. These APIs enable authorized partners to integrate Starbucks ordering, rewards, and store discovery into their applications and services.
+  version: '1.0'
+  contact:
+    name: Starbucks Developer Support
+    url: https://developer.starbucks.com/
+  termsOfService: https://www.starbucks.com/about-us/company-information/online-policies/terms-of-use
+servers:
+- url: https://api.starbucks.com
+  description: Production
+security:
+- bearerAuth: []
+tags:
+- name: Loyalty
+  description: Starbucks Rewards loyalty program operations
+paths:
+  /v1/loyalty/accounts/{accountId}:
+    get:
+      operationId: getLoyaltyAccount
+      summary: Get Loyalty Account
+      description: Returns Starbucks Rewards loyalty account details including star balance, membership tier, and account status.
+      tags:
+      - Loyalty
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        description: The unique identifier of the loyalty account
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoyaltyAccount'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Account Not Found
+        '429':
+          description: Too Many Requests
+  /v1/loyalty/accounts/{accountId}/transactions:
+    get:
+      operationId: listLoyaltyTransactions
+      summary: List Loyalty Transactions
+      description: Returns the star earning and redemption transaction history for a Starbucks Rewards account.
+      tags:
+      - Loyalty
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        description: The unique identifier of the loyalty account
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        description: Maximum number of transactions to return
+        schema:
+          type: integer
+          default: 20
+      - name: offset
+        in: query
+        required: false
+        description: Pagination offset
+        schema:
+          type: integer
+          default: 0
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transactions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LoyaltyTransaction'
+                  total:
+                    type: integer
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Account Not Found
+        '429':
+          description: Too Many Requests
+components:
+  schemas:
+    LoyaltyAccount:
+      type: object
+      properties:
+        id:
+          type: string
+        memberName:
+          type: string
+        tier:
+          type: string
+          enum:
+          - Welcome
+          - Green
+          - Gold
+        starBalance:
+          type: integer
+        ytdStars:
+          type: integer
+        memberSince:
+          type: string
+          format: date
+        status:
+          type: string
+          enum:
+          - active
+          - inactive
+          - suspended
+    LoyaltyTransaction:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - earn
+          - redeem
+          - expire
+          - bonus
+        stars:
+          type: integer
+        description:
+          type: string
+        storeId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        orderId:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+externalDocs:
+  description: Starbucks Developer Portal
+  url: https://developer.starbucks.com/
