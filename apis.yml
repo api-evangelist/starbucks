@@ -9,7 +9,20 @@ tags:
 - Retail
 - Fortune 500
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: enterprise
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Enterprise · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/starbucks.png
 created: '2024-01-01'
 modified: '2026-05-19'
 description: Starbucks provides partner APIs for ordering, loyalty program integration,
@@ -17,30 +30,91 @@ description: Starbucks provides partner APIs for ordering, loyalty program integ
   authorized partners to integrate Starbucks ordering, rewards, and store discovery
   into their applications.
 apis:
-- aid: starbucks:starbucks-api
-  name: Starbucks API
+- aid: starbucks:starbucks-loyalty-api
+  name: Starbucks Loyalty API
+  description: Starbucks Rewards loyalty program operations
   tags:
-  - Food Service
-  - Coffee
-  - Ordering
   - Loyalty
-  - Store Locator
+  properties:
+  - type: OpenAPI
+    url: openapi/starbucks-loyalty-api-openapi.yml
+  - type: Portal
+    url: https://developer.starbucks.com/
+  - type: Documentation
+    url: https://portal.starbucks.com/
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/starbucks/refs/heads/main/rules/starbucks-rules.yml
+  - type: GraphQL
+    url: graphql/starbucks-graphql.md
+- aid: starbucks:starbucks-menu-api
+  name: Starbucks Menu API
+  description: Menu categories and items operations
+  tags:
   - Menu
   properties:
-  - url: https://developer.starbucks.com/
-    type: Portal
-  - url: https://portal.starbucks.com/
-    type: Documentation
-  - url: https://raw.githubusercontent.com/api-evangelist/starbucks/refs/heads/main/openapi/starbucks-starbucks-api-openapi.yml
-    type: OpenAPI
-  - url: https://raw.githubusercontent.com/api-evangelist/starbucks/refs/heads/main/rules/starbucks-rules.yml
-    type: SpectralRules
-  - url: graphql/starbucks-graphql.md
-    type: GraphQL
-  description: The Starbucks API provides partner access to ordering workflows, loyalty
-    program management, store location discovery, and menu data. Authorized partners
-    use OAuth2 bearer token authentication to integrate Starbucks experiences into
-    their applications and services.
+  - type: OpenAPI
+    url: openapi/starbucks-menu-api-openapi.yml
+  - type: Portal
+    url: https://developer.starbucks.com/
+  - type: Documentation
+    url: https://portal.starbucks.com/
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/starbucks/refs/heads/main/rules/starbucks-rules.yml
+  - type: GraphQL
+    url: graphql/starbucks-graphql.md
+- aid: starbucks:starbucks-orders-api
+  name: Starbucks Orders API
+  description: Ordering and cart management operations
+  tags:
+  - Orders
+  properties:
+  - type: OpenAPI
+    url: openapi/starbucks-orders-api-openapi.yml
+  - type: Portal
+    url: https://developer.starbucks.com/
+  - type: Documentation
+    url: https://portal.starbucks.com/
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/starbucks/refs/heads/main/rules/starbucks-rules.yml
+  - type: GraphQL
+    url: graphql/starbucks-graphql.md
+- aid: starbucks:starbucks-status-api
+  name: Starbucks Status API
+  description: API health and status operations
+  tags:
+  - Status
+  properties:
+  - type: OpenAPI
+    url: openapi/starbucks-status-api-openapi.yml
+  - type: Portal
+    url: https://developer.starbucks.com/
+  - type: Documentation
+    url: https://portal.starbucks.com/
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/starbucks/refs/heads/main/rules/starbucks-rules.yml
+  - type: GraphQL
+    url: graphql/starbucks-graphql.md
+- aid: starbucks:starbucks-stores-api
+  name: Starbucks Stores API
+  description: Store location and search operations
+  tags:
+  - Stores
+  properties:
+  - type: OpenAPI
+    url: openapi/starbucks-stores-api-openapi.yml
+  - type: Portal
+    url: https://developer.starbucks.com/
+  - type: Documentation
+    url: https://portal.starbucks.com/
+  - type: SpectralRules
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/starbucks/refs/heads/main/rules/starbucks-rules.yml
+  - type: GraphQL
+    url: graphql/starbucks-graphql.md
 common:
 - type: AgenticAccess
   url: agentic-access/starbucks-agentic-access.yml
