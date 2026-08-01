@@ -1,0 +1,22 @@
+{
+  "provider": "starbucks",
+  "sources": [
+    "starbucks-loyalty-api-openapi.yml",
+    "starbucks-menu-api-openapi.yml",
+    "starbucks-orders-api-openapi.yml",
+    "starbucks-status-api-openapi.yml",
+    "starbucks-stores-api-openapi.yml"
+  ],
+  "outputs": [
+    "starbucks-loyalty-api-openapi.yml",
+    "starbucks-menu-api-openapi.yml",
+    "starbucks-orders-api-openapi.yml",
+    "starbucks-status-api-openapi.yml",
+    "starbucks-stores-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
