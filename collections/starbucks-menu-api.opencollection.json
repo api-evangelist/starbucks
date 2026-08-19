@@ -1,0 +1,85 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Starbucks Loyalty Menu API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Menu",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Menu Categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.starbucks.com/v1/menu/categories"
+          },
+          "docs": "Returns all available menu categories such as Hot Coffees, Cold Coffees, Teas, Refreshers, Food, and Merchandise."
+        },
+        {
+          "info": {
+            "name": "List Menu Items",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.starbucks.com/v1/menu/categories/:categoryId/items",
+            "params": [
+              {
+                "name": "categoryId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the menu category"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Pagination offset"
+              }
+            ]
+          },
+          "docs": "Returns all menu items within a specific category, including product descriptions, pricing, sizes, and customization options."
+        },
+        {
+          "info": {
+            "name": "Get Menu Item",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.starbucks.com/v1/menu/items/:itemId",
+            "params": [
+              {
+                "name": "itemId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the menu item"
+              }
+            ]
+          },
+          "docs": "Returns detailed information for a specific menu item including full nutritional data, allergen information, customization options, and available sizes."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

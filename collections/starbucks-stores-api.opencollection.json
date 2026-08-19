@@ -1,0 +1,86 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Starbucks Loyalty Stores API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Stores",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Stores",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.starbucks.com/v1/stores",
+            "params": [
+              {
+                "name": "latitude",
+                "value": "",
+                "type": "query",
+                "description": "Latitude coordinate for location-based search"
+              },
+              {
+                "name": "longitude",
+                "value": "",
+                "type": "query",
+                "description": "Longitude coordinate for location-based search"
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Text search query (address, city, zip)"
+              },
+              {
+                "name": "radius",
+                "value": "",
+                "type": "query",
+                "description": "Search radius in miles"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of stores to return"
+              }
+            ]
+          },
+          "docs": "Search for Starbucks store locations by geographic coordinates, address, or city. Returns store details including hours, amenities, and contact information."
+        },
+        {
+          "info": {
+            "name": "Get Store",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.starbucks.com/v1/stores/:storeId",
+            "params": [
+              {
+                "name": "storeId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the store"
+              }
+            ]
+          },
+          "docs": "Returns detailed information for a specific Starbucks store location including address, hours of operation, amenities, and available services."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
