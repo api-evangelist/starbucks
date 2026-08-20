@@ -52,6 +52,8 @@ apis:
   name: Starbucks Menu API
   description: Menu categories and items operations
   tags:
+  - Menus
+  tags_raw:
   - Menu
   properties:
   - type: OpenAPI
@@ -69,6 +71,8 @@ apis:
   name: Starbucks Orders API
   description: Ordering and cart management operations
   tags:
+  - Order
+  tags_raw:
   - Orders
   properties:
   - type: OpenAPI
