@@ -1,0 +1,25 @@
+slug: starbucks
+provider: Starbucks
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Retail & Consumer Goods
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Loyalty
+  spec_file: starbucks-loyalty-api-openapi.yml
+  capability_id: BC-420.40
+  capability_id_l1: BC-420
+  capability_name: Loyalty & Retention Management
+  confidence: 0.9
+  evidence: GET /v1/loyalty/accounts/{accountId}  getLoyaltyAccount; GET .../transactions  listLoyaltyTransactions;
+    schemas LoyaltyAccount, LoyaltyTransaction
+  reason: Operations read consumer loyalty account balances and reward transactions — plainly loyalty
+    programme administration.

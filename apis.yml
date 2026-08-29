@@ -133,6 +133,9 @@ apis:
   - type: GraphQL
     url: graphql/starbucks-graphql.md
 common:
+- type: CapabilityMap
+  url: capabilities/starbucks-capability-edges.yml
+  name: Starbucks Business Capability Map
 - type: AgenticAccess
   url: agentic-access/starbucks-agentic-access.yml
 - type: DomainSecurity
