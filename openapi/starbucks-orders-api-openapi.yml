@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Starbucks Loyalty Orders API
+  title: Starbucks Orders API
   description: Starbucks provides partner APIs for ordering, loyalty program integration, store locations, and menu data. These APIs enable authorized partners to integrate Starbucks ordering, rewards, and store discovery into their applications and services.
   version: '1.0'
   contact:
@@ -110,6 +110,24 @@ components:
         estimatedReadyAt:
           type: string
           format: date-time
+    MenuItem:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: float
+        imageUrl:
+          type: string
+        categoryId:
+          type: string
+        available:
+          type: boolean
     CreateOrderRequest:
       type: object
       required:
@@ -142,24 +160,6 @@ components:
           type: string
         redemptionStars:
           type: integer
-    MenuItem:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        price:
-          type: number
-          format: float
-        imageUrl:
-          type: string
-        categoryId:
-          type: string
-        available:
-          type: boolean
   securitySchemes:
     bearerAuth:
       type: http

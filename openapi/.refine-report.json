@@ -1,11 +1,7 @@
 {
   "provider": "starbucks",
   "sources": [
-    "starbucks-loyalty-api-openapi.yml",
-    "starbucks-menu-api-openapi.yml",
-    "starbucks-orders-api-openapi.yml",
-    "starbucks-status-api-openapi.yml",
-    "starbucks-stores-api-openapi.yml"
+    "_original/starbucks-starbucks-api-openapi.yml"
   ],
   "outputs": [
     "starbucks-loyalty-api-openapi.yml",
@@ -17,6 +13,16 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "starbucks-starbucks-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "starbucks-loyalty-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "starbucks-menu-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "starbucks-orders-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "starbucks-status-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "starbucks-stores-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
