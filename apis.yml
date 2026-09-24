@@ -21,6 +21,8 @@ tags:
 - Ordering
 - Retail
 - Fortune 500
+- Restaurant
+- Food and Beverage
 type: Index
 accessModel:
   pricing: enterprise
@@ -59,8 +61,6 @@ apis:
   - type: SpectralRules
     url: >-
       https://raw.githubusercontent.com/api-evangelist/starbucks/refs/heads/main/rules/starbucks-rules.yml
-  - type: GraphQL
-    url: graphql/starbucks-graphql.md
 - aid: starbucks:starbucks-menu-api
   name: Starbucks Menu API
   description: Menu categories and items operations
@@ -78,8 +78,6 @@ apis:
   - type: SpectralRules
     url: >-
       https://raw.githubusercontent.com/api-evangelist/starbucks/refs/heads/main/rules/starbucks-rules.yml
-  - type: GraphQL
-    url: graphql/starbucks-graphql.md
 - aid: starbucks:starbucks-orders-api
   name: Starbucks Orders API
   description: Ordering and cart management operations
@@ -97,8 +95,6 @@ apis:
   - type: SpectralRules
     url: >-
       https://raw.githubusercontent.com/api-evangelist/starbucks/refs/heads/main/rules/starbucks-rules.yml
-  - type: GraphQL
-    url: graphql/starbucks-graphql.md
 - aid: starbucks:starbucks-status-api
   name: Starbucks Status API
   description: API health and status operations
@@ -114,8 +110,6 @@ apis:
   - type: SpectralRules
     url: >-
       https://raw.githubusercontent.com/api-evangelist/starbucks/refs/heads/main/rules/starbucks-rules.yml
-  - type: GraphQL
-    url: graphql/starbucks-graphql.md
 - aid: starbucks:starbucks-stores-api
   name: Starbucks Stores API
   description: Store location and search operations
@@ -131,8 +125,6 @@ apis:
   - type: SpectralRules
     url: >-
       https://raw.githubusercontent.com/api-evangelist/starbucks/refs/heads/main/rules/starbucks-rules.yml
-  - type: GraphQL
-    url: graphql/starbucks-graphql.md
 common:
 - type: CapabilityMap
   url: capabilities/starbucks-capability-edges.yml
