@@ -105,43 +105,6 @@ paths:
           description: Too Many Requests
 components:
   schemas:
-    Store:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        address:
-          $ref: '#/components/schemas/Address'
-        coordinates:
-          $ref: '#/components/schemas/Coordinates'
-        phone:
-          type: string
-        timezone:
-          type: string
-    Coordinates:
-      type: object
-      properties:
-        latitude:
-          type: number
-          format: float
-        longitude:
-          type: number
-          format: float
-    Address:
-      type: object
-      properties:
-        street:
-          type: string
-        city:
-          type: string
-        state:
-          type: string
-        postalCode:
-          type: string
-        country:
-          type: string
     StoreDetail:
       allOf:
       - $ref: '#/components/schemas/Store'
@@ -170,6 +133,43 @@ components:
             type: boolean
           driveThru:
             type: boolean
+    Coordinates:
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: float
+        longitude:
+          type: number
+          format: float
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+    Store:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+        phone:
+          type: string
+        timezone:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http
