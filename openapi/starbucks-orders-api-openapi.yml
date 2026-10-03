@@ -73,38 +73,6 @@ paths:
           description: Too Many Requests
 components:
   schemas:
-    CreateOrderRequest:
-      type: object
-      required:
-      - storeId
-      - items
-      properties:
-        storeId:
-          type: string
-        items:
-          type: array
-          items:
-            type: object
-            properties:
-              menuItemId:
-                type: string
-              quantity:
-                type: integer
-              sizeId:
-                type: string
-              customizations:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    type:
-                      type: string
-                    optionId:
-                      type: string
-        loyaltyAccountId:
-          type: string
-        redemptionStars:
-          type: integer
     Order:
       type: object
       properties:
@@ -160,6 +128,38 @@ components:
           type: string
         available:
           type: boolean
+    CreateOrderRequest:
+      type: object
+      required:
+      - storeId
+      - items
+      properties:
+        storeId:
+          type: string
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              menuItemId:
+                type: string
+              quantity:
+                type: integer
+              sizeId:
+                type: string
+              customizations:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                    optionId:
+                      type: string
+        loyaltyAccountId:
+          type: string
+        redemptionStars:
+          type: integer
   securitySchemes:
     bearerAuth:
       type: http

@@ -120,6 +120,24 @@ paths:
           description: Too Many Requests
 components:
   schemas:
+    MenuItem:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: float
+        imageUrl:
+          type: string
+        categoryId:
+          type: string
+        available:
+          type: boolean
     MenuCategory:
       type: object
       properties:
@@ -173,24 +191,6 @@ components:
             type: array
             items:
               type: string
-    MenuItem:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        price:
-          type: number
-          format: float
-        imageUrl:
-          type: string
-        categoryId:
-          type: string
-        available:
-          type: boolean
   securitySchemes:
     bearerAuth:
       type: http

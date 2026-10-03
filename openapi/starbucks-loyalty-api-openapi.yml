@@ -97,6 +97,29 @@ paths:
           description: Too Many Requests
 components:
   schemas:
+    LoyaltyTransaction:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - earn
+          - redeem
+          - expire
+          - bonus
+        stars:
+          type: integer
+        description:
+          type: string
+        storeId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        orderId:
+          type: string
     LoyaltyAccount:
       type: object
       properties:
@@ -123,29 +146,6 @@ components:
           - active
           - inactive
           - suspended
-    LoyaltyTransaction:
-      type: object
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-          enum:
-          - earn
-          - redeem
-          - expire
-          - bonus
-        stars:
-          type: integer
-        description:
-          type: string
-        storeId:
-          type: string
-        timestamp:
-          type: string
-          format: date-time
-        orderId:
-          type: string
   securitySchemes:
     bearerAuth:
       type: http

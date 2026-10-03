@@ -105,6 +105,30 @@ paths:
           description: Too Many Requests
 components:
   schemas:
+    Coordinates:
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: float
+        longitude:
+          type: number
+          format: float
+    Store:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+        phone:
+          type: string
+        timezone:
+          type: string
     StoreDetail:
       allOf:
       - $ref: '#/components/schemas/Store'
@@ -133,15 +157,6 @@ components:
             type: boolean
           driveThru:
             type: boolean
-    Coordinates:
-      type: object
-      properties:
-        latitude:
-          type: number
-          format: float
-        longitude:
-          type: number
-          format: float
     Address:
       type: object
       properties:
@@ -154,21 +169,6 @@ components:
         postalCode:
           type: string
         country:
-          type: string
-    Store:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        address:
-          $ref: '#/components/schemas/Address'
-        coordinates:
-          $ref: '#/components/schemas/Coordinates'
-        phone:
-          type: string
-        timezone:
           type: string
   securitySchemes:
     bearerAuth:
