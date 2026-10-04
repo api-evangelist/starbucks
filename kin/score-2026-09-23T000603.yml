@@ -1,21 +1,19 @@
-# Kin Score artifact — starbucks — 2026-08-26T215308
+# Kin Score artifact — starbucks — 2026-09-23T000603
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: starbucks
-  schema_version: 0.15.0
-  scored_at: '2026-08-26'
-  run_ts: 2026-08-26T215308
-  composite: 35.1
+  schema_version: 0.22.0
+  scored_at: '2026-09-23'
+  run_ts: 2026-09-23T000603
+  composite: 33.8
   band: thin
   facets:
-    discoverability: 50.0
+    discoverability: 44.4
     contract_quality: 61.4
-    governance: 13.6
+    contract_governance: 13.6
     operational_transparency: 7.9
     developer_ergonomics: 26.2
-    commercial_clarity: 34.2
-    contract_governance: 13.6
     access_clarity: 34.2
   agent_readiness:
     score: 19.8
