@@ -105,15 +105,6 @@ paths:
           description: Too Many Requests
 components:
   schemas:
-    Coordinates:
-      type: object
-      properties:
-        latitude:
-          type: number
-          format: float
-        longitude:
-          type: number
-          format: float
     Store:
       type: object
       properties:
@@ -170,6 +161,15 @@ components:
           type: string
         country:
           type: string
+    Coordinates:
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: float
+        longitude:
+          type: number
+          format: float
   securitySchemes:
     bearerAuth:
       type: http

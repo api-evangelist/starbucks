@@ -73,43 +73,6 @@ paths:
           description: Too Many Requests
 components:
   schemas:
-    Order:
-      type: object
-      properties:
-        id:
-          type: string
-        status:
-          type: string
-          enum:
-          - pending
-          - accepted
-          - preparing
-          - ready
-          - completed
-          - cancelled
-        storeId:
-          type: string
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/MenuItem'
-        subtotal:
-          type: number
-          format: float
-        tax:
-          type: number
-          format: float
-        total:
-          type: number
-          format: float
-        starsEarned:
-          type: integer
-        createdAt:
-          type: string
-          format: date-time
-        estimatedReadyAt:
-          type: string
-          format: date-time
     MenuItem:
       type: object
       properties:
@@ -160,6 +123,43 @@ components:
           type: string
         redemptionStars:
           type: integer
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+          - pending
+          - accepted
+          - preparing
+          - ready
+          - completed
+          - cancelled
+        storeId:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/MenuItem'
+        subtotal:
+          type: number
+          format: float
+        tax:
+          type: number
+          format: float
+        total:
+          type: number
+          format: float
+        starsEarned:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        estimatedReadyAt:
+          type: string
+          format: date-time
   securitySchemes:
     bearerAuth:
       type: http
