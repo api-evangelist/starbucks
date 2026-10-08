@@ -126,6 +126,12 @@ apis:
     url: >-
       https://raw.githubusercontent.com/api-evangelist/starbucks/refs/heads/main/rules/starbucks-rules.yml
 common:
+- type: Plans
+  url: plans/starbucks-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/starbucks-rate-limits.yml
+- type: FinOps
+  url: finops/starbucks-finops.yml
 - type: CapabilityMap
   url: capabilities/starbucks-capability-edges.yml
   name: Starbucks Business Capability Map
