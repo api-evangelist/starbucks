@@ -105,6 +105,28 @@ paths:
           description: Too Many Requests
 components:
   schemas:
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+    Coordinates:
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: float
+        longitude:
+          type: number
+          format: float
     Store:
       type: object
       properties:
@@ -148,28 +170,6 @@ components:
             type: boolean
           driveThru:
             type: boolean
-    Address:
-      type: object
-      properties:
-        street:
-          type: string
-        city:
-          type: string
-        state:
-          type: string
-        postalCode:
-          type: string
-        country:
-          type: string
-    Coordinates:
-      type: object
-      properties:
-        latitude:
-          type: number
-          format: float
-        longitude:
-          type: number
-          format: float
   securitySchemes:
     bearerAuth:
       type: http
