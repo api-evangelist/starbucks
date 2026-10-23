@@ -29,3 +29,51 @@
     register_id: starbucks.jpg
   status: not-a-workflow
   arazzo: null
+- slug: starbucks-open-food-facts
+  label: Open Food Facts
+  partner: open-food-facts
+  partner_name: Open Food Facts
+  category: open food product database (brand owner listing)
+  type: register
+  channel: standard-directory
+  evidence: https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz
+  source: edge
+  relationship: standard-participant
+  contract_reference:
+    register: Open Food Facts product database, bulk CSV export (brand_owner field)
+    standard: Open Food Facts product database (ODbL open data)
+    spec_file: null
+    role: brand-owner-listed
+    registered_names:
+    - STARBUCKS
+    - STARBUCKS, INC
+    - Starbucks
+    brands:
+    - starbucks
+    - xx:Starbucks
+    - xx:starbucks
+    - xx:Frappuccino
+    - xx:STARBUCKS
+    register_countries:
+    - united-states
+    - france
+    - bolivia
+    - world
+    last_product_update: '2026-10-14'
+    matched_domain: null
+    matched_by: register-name
+    register_name_note: register-name 'starbucks' = starbucks; wikidata P856 istarbucks.co.kr, starbucks.ca, starbucks.co.id,
+      starbucks.co.jp, starbucks.co.kr, starbucks.co.th, starbucks.co.uk, starbucks.co.za, starbucks.com, starbucks.com.ar,
+      starbucks.com.br, starbucks.com.cn, starbucks.com.hk, starbucks.com.mx, starbucks.com.my, starbucks.com.tr,
+      starbucks.com.tw, starbucks.de, starbucks.es, starbucks.fr, starbucks.hu, starbucks.in, starbucks.ph agrees
+      or unheld
+    signal_note: 'participation only: the company''s products are listed in Open Food Facts under its brand_owner
+      name (largely producer / GS1 data-pool imports). Listing is not certification; product counts are context,
+      never counted.'
+    detected_by: sweep-open-food-facts-brands.py
+    detected: '2026-10-23'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
